@@ -7,12 +7,22 @@ const server = http.createServer((req,res)=>{
         res.end()
         
     }else if(req.url==="/about" && req.method==="POST"){
+        const body =[]
         req.on("data", (chunk)=>{
-            console.log(chunk.toString());
+            // console.log(chunk.toString());
+            
+            body.push(chunk)
             
         })
-        res.write("Thank you for data submit");
+        req.on("end", ()=>{
+            console.log("stream was finest");
+            const persebody = Buffer.concat(body).toString()
+            console.log(persebody);
+            res.write("Thank you for data submit");
         res.end()
+            
+        })
+        
     }else{
         res.write("this is global");
         res.end()
